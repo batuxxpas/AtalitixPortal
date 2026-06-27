@@ -1,26 +1,129 @@
+/* Google Fonts - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @import "tailwindcss";
 
+/* ===================================
+   ATALITIX PORTAL - Design System
+   =================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Brand colors */
+  --color-primary: #2d3a8c;
+  --color-primary-light: #4f5ecb;
+  --color-primary-dark: #1e2861;
+  --color-accent: #3b82f6;
+  --color-accent-light: #60a5fa;
+
+  /* Surface colors - Light Theme */
+  --color-dark: #f8f9fc;
+  --color-dark-900: #ffffff;
+  --color-dark-800: #f1f5f9;
+  --color-dark-700: #e2e8f0;
+  --color-dark-surface: #ffffff;
+  --color-dark-card: #ffffff;
+  --color-dark-border: #e2e8f0;
+
+  /* Text colors - Light Theme */
+  --color-text: #0a1945;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+
+  /* Status colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Chart colors */
+  --chart-1: #3b82f6;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #0a1945;
+  --chart-5: #ef4444;
+  --chart-6: #8b5cf6;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--color-dark); /* f8f9fc */
+  color: var(--color-text); /* 0a1945 */
+  -webkit-font-smoothing: antialiased;
 }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f8f9fc; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+::selection { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-up { animation: fadeInUp 0.5s ease forwards; }
+.animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+
+.skeleton {
+  background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+.progress-bar { height: 6px; border-radius: 999px; background: #1f2937; overflow: hidden; }
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2d3a8c, #3b82f6);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-glow {
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.1), 0 4px 24px rgba(59,130,246,0.05);
+  transition: box-shadow 0.3s ease;
+}
+.card-glow:hover {
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.2), 0 8px 40px rgba(59,130,246,0.1);
+}
+
+.sidebar-item-active {
+  background: linear-gradient(135deg, rgba(45,58,140,0.3), rgba(59,130,246,0.2));
+  border-left: 3px solid #3b82f6;
+  color: #60a5fa;
+}
+
+:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+.portal-table { width: 100%; border-collapse: collapse; }
+.portal-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+}
+.portal-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+}
+.portal-table tr:hover td { background: rgba(59, 130, 246, 0.03); }

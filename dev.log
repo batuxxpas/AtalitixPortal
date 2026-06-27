@@ -1,0 +1,19 @@
+
+> atalitix-portal@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by process 36915, using available port 3001 instead.
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://172.20.10.4:3001
+- Environments: .env.local
+✓ Ready in 250ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          36915
+- Dir:          /Users/machan/Desktop/Projeler/Atalitix/AtalitixPortal
+- Log:          .next/dev/logs/next-development.log
+
+Run kill 36915 to stop it.
+[?25h

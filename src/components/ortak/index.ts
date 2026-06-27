@@ -1,0 +1,1 @@
+export { BosDurum } from './BosDurum'
