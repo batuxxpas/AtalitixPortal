@@ -9,11 +9,13 @@ export async function POST(request: Request) {
     const { data: userData } = await supabase.auth.getUser()
     if (!userData?.user) return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
 
-    const { data: profil } = await supabase
+    const { data: rawProfil } = await supabase
       .from('profiller')
       .select('rol, yetkiler')
       .eq('id', userData.user.id)
-      .single()
+      .single() as unknown as { data: any }
+      
+    const profil = rawProfil
 
     if (!profil || (profil.rol !== 'superadmin' && !(profil.yetkiler as any)?.soru_yonetimi)) {
       return NextResponse.json({ error: 'Yetkiniz yok' }, { status: 403 })
@@ -23,7 +25,7 @@ export async function POST(request: Request) {
 
     if (id) {
       // Güncelleme
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('soru_secenekleri')
         .update({ soru_id, metin, deger, sira })
         .eq('id', id)
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, data })
     } else {
       // Ekleme
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('soru_secenekleri')
         .insert([{ soru_id, metin, deger, sira }])
         .select()
@@ -60,17 +62,19 @@ export async function DELETE(request: Request) {
     const { data: userData } = await supabase.auth.getUser()
     if (!userData?.user) return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
 
-    const { data: profil } = await supabase
+    const { data: rawProfil } = await supabase
       .from('profiller')
       .select('rol, yetkiler')
       .eq('id', userData.user.id)
-      .single()
+      .single() as unknown as { data: any }
+      
+    const profil = rawProfil
 
     if (!profil || (profil.rol !== 'superadmin' && !(profil.yetkiler as any)?.soru_yonetimi)) {
       return NextResponse.json({ error: 'Yetkiniz yok' }, { status: 403 })
     }
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('soru_secenekleri')
       .delete()
       .eq('id', id)

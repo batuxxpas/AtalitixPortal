@@ -37,9 +37,9 @@ export async function POST(req: Request) {
     }
 
     // Update atalitix_yorumu
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('degerlendirme_sonuclari')
-      .update({ atalitix_yorumu: yorum } as any)
+      .update({ atalitix_yorumu: yorum })
       .eq('degerlendirme_id', degerlendirmeId)
 
     if (updateError) {
