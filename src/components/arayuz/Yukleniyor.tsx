@@ -1,4 +1,7 @@
+'use client'
+
 import { cn } from '@/lib/utils'
+import { usePathname } from 'next/navigation'
 
 interface YukleniyorProps {
   boyut?: 'xs' | 'sm' | 'md' | 'lg'
@@ -27,11 +30,32 @@ export function Yukleniyor({ boyut = 'md', className }: YukleniyorProps) {
 }
 
 export function SayfaYukleniyor() {
+  const pathname = usePathname() || ''
+  
+  let modulAdi = 'Sistem'
+  if (pathname.includes('/sirketler')) modulAdi = 'Şirketler'
+  else if (pathname.includes('/sorular')) modulAdi = 'Soru Paneli'
+  else if (pathname.includes('/kullanicilar')) modulAdi = 'Kullanıcılar'
+  else if (pathname.includes('/degerlendirme')) modulAdi = 'Değerlendirmeler'
+  else if (pathname.includes('/sonuclar')) modulAdi = 'Sonuç Raporu'
+  else if (pathname.includes('/dashboard')) modulAdi = 'Ana Ekran'
+  else if (pathname.includes('/rehber')) modulAdi = 'Rehber'
+
   return (
-    <div className="min-h-[400px] flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3">
-        <Yukleniyor boyut="lg" />
-        <p className="text-sm text-slate-400">Yükleniyor...</p>
+    <div className="min-h-[400px] w-full flex flex-col items-center justify-center gap-8">
+      <div className="relative flex items-center justify-center w-36 h-36">
+        {/* Dış dönen halkalar */}
+        <div className="absolute inset-0 rounded-full border-t-[3px] border-r-[3px] border-blue-600 animate-spin opacity-70"></div>
+        <div className="absolute inset-3 rounded-full border-b-[3px] border-l-[3px] border-blue-300 animate-[spin_1.5s_reverse_linear_infinite] opacity-50"></div>
+        
+        {/* Logo Alanı */}
+        <div className="relative w-28 h-28 bg-white rounded-full shadow-sm border border-slate-50 flex items-center justify-center p-4 animate-pulse">
+          <img src="/Atalitixlogo.jpeg" alt="Atalitix" className="w-full h-full object-contain" />
+        </div>
+      </div>
+      
+      <div className="flex flex-col items-center">
+        <p className="text-base font-medium text-slate-500 tracking-wide animate-pulse">{modulAdi} Yükleniyor...</p>
       </div>
     </div>
   )
