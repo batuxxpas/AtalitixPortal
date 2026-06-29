@@ -104,7 +104,7 @@ export function AtalitixYorumuPaneli({ degerlendirmeId, mevcutYorum, isAuthorize
             )}
             
             {isAuthorizedToComment && (
-              <div className={`absolute top-2 right-2 transition-opacity ${yorum ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
+              <div className={`mt-4 flex justify-end md:mt-0 md:block md:absolute md:top-2 md:right-2 transition-opacity ${yorum ? 'md:opacity-0 md:group-hover:opacity-100' : 'opacity-100'}`}>
                 <Buton 
                   varyant={yorum ? "secondary" : "primary"} 
                   boyut="sm" 

@@ -93,19 +93,19 @@ export default async function ResultsPage({ params }: Props) {
   return (
     <div className="space-y-6 animate-fade-up">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Link href="/degerlendirme">
               <Buton varyant="ghost" boyut="xs">← Değerlendirmeler</Buton>
             </Link>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">{assessment.baslik} — Sonuçlar</h1>
-          <p className="text-slate-500 mt-1">
+          <h1 className="text-xl md:text-2xl font-bold text-slate-900">{assessment.baslik} — Sonuçlar</h1>
+          <p className="text-slate-500 mt-1 text-sm md:text-base">
             Tamamlanma: {assessment.tamamlanma_tarihi ? formatDate(assessment.tamamlanma_tarihi) : '—'}
           </p>
         </div>
-        <div className="flex items-start gap-3">
+        <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
           <YazdirButonu />
           <MailGonderButonu 
             hedefMail={assessment.company?.yetkili_email || user.email || ''} 
@@ -169,7 +169,8 @@ export default async function ResultsPage({ params }: Props) {
             <KartIcerigi>
               <KategoriCubukGrafigi data={categoryScores} className="mb-6" />
               
-              <div className="overflow-x-auto w-full pb-2">
+              {/* Masaüstü Tablo */}
+              <div className="hidden md:block w-full pb-2">
                 <table className="w-full text-sm text-left">
                   <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
                     <tr>
@@ -204,6 +205,41 @@ export default async function ResultsPage({ params }: Props) {
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+              {/* Mobil Kart Görünümü */}
+              <div className="md:hidden space-y-4 w-full">
+                {categoryScores.map((cat) => (
+                  <div key={cat.kategori_id} className="border border-slate-200 rounded-xl p-4 bg-white shadow-sm flex flex-col gap-3">
+                    <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                       <h3 className="font-bold text-slate-800 text-base">{cat.kategori_adi}</h3>
+                       <Rozet varyant="outline" className={
+                         cat.yuzde >= 67 ? 'text-emerald-600 border-emerald-200 bg-emerald-50' :
+                         cat.yuzde >= 34 ? 'text-blue-600 border-blue-200 bg-blue-50' :
+                         'text-rose-600 border-rose-200 bg-rose-50'
+                       }>
+                         {cat.yuzde}%
+                       </Rozet>
+                    </div>
+                    <div className="flex justify-between text-sm items-center">
+                      <span className="text-slate-500">Ağırlıklı Puan</span>
+                      <span className="text-amber-600 font-bold">{cat.skor}</span>
+                    </div>
+                    <div className="flex justify-between text-sm items-center">
+                      <span className="text-slate-500">Maks Puan</span>
+                      <span className="text-slate-700 font-medium">{cat.maks_skor}</span>
+                    </div>
+                    <div className="flex justify-between text-sm items-center">
+                      <span className="text-slate-500">Cevaplanan / Toplam</span>
+                      <span className="text-slate-700 font-medium">{cat.cevaplanan} / {cat.toplam_soru}</span>
+                    </div>
+                    {cat.yorum && (
+                      <div className="mt-2 bg-slate-50/80 p-3 rounded-lg text-xs text-slate-600 leading-relaxed border border-slate-100">
+                        {cat.yorum}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </KartIcerigi>
           </Kart>
