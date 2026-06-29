@@ -112,7 +112,8 @@ export default async function DegerlendirmeListeSayfasi(props: { searchParams: P
           />
         ) : (
           <KartIcerigi className="p-0">
-            <table className="portal-table">
+            <div className="overflow-x-auto w-full pb-2">
+              <table className="portal-table">
               <thead>
                 <tr>
                   <th>Şirket</th>
@@ -168,8 +169,9 @@ export default async function DegerlendirmeListeSayfasi(props: { searchParams: P
                     </tr>
                   )
                 })}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </KartIcerigi>
         )}
       </Kart>

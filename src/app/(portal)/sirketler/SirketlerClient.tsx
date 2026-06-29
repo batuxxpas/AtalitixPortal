@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { Buton, Girdi } from '@/components/arayuz'
+import { Buton, Girdi, KartIcerigi } from '@/components/arayuz'
 import { useRouter } from 'next/navigation'
 
 export function SirketlerClient({ baslangicSirketleri }: { baslangicSirketleri: any[] }) {
@@ -142,49 +142,51 @@ export function SirketlerClient({ baslangicSirketleri }: { baslangicSirketleri: 
         <Buton onClick={() => modalAc('ekle')}>+ Yeni Şirket Ekle</Buton>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-slate-200">
-        <table className="w-full text-sm text-left">
-          <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
-            <tr>
-              <th className="px-4 py-3 font-semibold">Şirket Adı</th>
-              <th className="px-4 py-3 font-semibold">Sektör</th>
-              <th className="px-4 py-3 font-semibold">VKN</th>
-              <th className="px-4 py-3 font-semibold">Yetkili İsim</th>
-              <th className="px-4 py-3 font-semibold">Yetkili E-posta</th>
-              <th className="px-4 py-3 font-semibold text-center">Değerlendirmeler</th>
-              <th className="px-4 py-3 font-semibold text-right">İşlemler</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {sirketler.length === 0 ? (
+      <KartIcerigi className="p-0">
+        <div className="overflow-x-auto w-full pb-2">
+          <table className="w-full text-sm text-left">
+            <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
-                  Henüz hiç şirket eklenmemiş.
-                </td>
+                <th className="px-4 py-3 font-semibold">Şirket Adı</th>
+                <th className="px-4 py-3 font-semibold">Sektör</th>
+                <th className="px-4 py-3 font-semibold">VKN</th>
+                <th className="px-4 py-3 font-semibold">Yetkili İsim</th>
+                <th className="px-4 py-3 font-semibold">Yetkili E-posta</th>
+                <th className="px-4 py-3 font-semibold text-center">Değerlendirmeler</th>
+                <th className="px-4 py-3 font-semibold text-right">İşlemler</th>
               </tr>
-            ) : (
-              sirketler.map((s) => (
-                <tr key={s.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-4 py-3 font-medium text-slate-800">{s.ad}</td>
-                  <td className="px-4 py-3 text-slate-600">{s.sektor || '-'}</td>
-                  <td className="px-4 py-3 text-slate-600">{s.vkn || '-'}</td>
-                  <td className="px-4 py-3 text-slate-600">{s.yetkili_isim || '-'}</td>
-                  <td className="px-4 py-3 text-slate-600">{s.yetkili_email || '-'}</td>
-                  <td className="px-4 py-3 text-center text-slate-600">
-                    {s.degerlendirmeler?.[0]?.count || 0}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="flex justify-end gap-2">
-                      <Buton varyant="outline" boyut="sm" onClick={() => modalAc('duzenle', s)}>Düzenle</Buton>
-                      <Buton varyant="secondary" boyut="sm" onClick={() => modalAc('sil', s)} className="text-red-600 hover:text-red-700 hover:bg-red-50">Sil</Buton>
-                    </div>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {sirketler.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
+                    Henüz hiç şirket eklenmemiş.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : (
+                sirketler.map((s) => (
+                  <tr key={s.id} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="px-4 py-3 font-medium text-slate-800">{s.ad}</td>
+                    <td className="px-4 py-3 text-slate-600">{s.sektor || '-'}</td>
+                    <td className="px-4 py-3 text-slate-600">{s.vkn || '-'}</td>
+                    <td className="px-4 py-3 text-slate-600">{s.yetkili_isim || '-'}</td>
+                    <td className="px-4 py-3 text-slate-600">{s.yetkili_email || '-'}</td>
+                    <td className="px-4 py-3 text-center text-slate-600">
+                      {s.degerlendirmeler?.[0]?.count || 0}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex justify-end gap-2">
+                        <Buton varyant="outline" boyut="sm" onClick={() => modalAc('duzenle', s)}>Düzenle</Buton>
+                        <Buton varyant="secondary" boyut="sm" onClick={() => modalAc('sil', s)} className="text-red-600 hover:text-red-700 hover:bg-red-50">Sil</Buton>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </KartIcerigi>
 
       {/* Şirket Ekle Modal */}
       {modalAcik && mounted && createPortal(

@@ -115,7 +115,8 @@ export default async function DashboardPage() {
             }
           />
           <KartIcerigi className="p-0">
-            <table className="portal-table">
+            <div className="overflow-x-auto w-full pb-2">
+              <table className="portal-table">
               <thead>
                 <tr>
                   <th>Şirket</th>
@@ -164,6 +165,7 @@ export default async function DashboardPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </KartIcerigi>
         </Kart>
       )}

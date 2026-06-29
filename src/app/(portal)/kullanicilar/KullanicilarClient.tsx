@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { Buton, Girdi } from '@/components/arayuz'
+import { Buton, Girdi, Rozet, KartIcerigi } from '@/components/arayuz'
 import { useRouter } from 'next/navigation'
 
 const CheckIcon = () => (
@@ -171,57 +171,59 @@ export function KullanicilarClient({ baslangicKullanicilari }: { baslangicKullan
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-slate-200">
-        <table className="w-full text-sm text-left">
-          <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
-            <tr>
-              <th className="px-4 py-3 font-semibold">İsim Soyisim</th>
-              <th className="px-4 py-3 font-semibold">Rol</th>
-              <th className="px-4 py-3 font-semibold">Şirket Yönetimi</th>
-              <th className="px-4 py-3 font-semibold">Değerlendirme Yönetimi</th>
-              <th className="px-4 py-3 font-semibold">Soru Yönetimi</th>
-              <th className="px-4 py-3 font-semibold">Yorum Yönetimi</th>
-              <th className="px-4 py-3 font-semibold text-right">İşlemler</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {kullanicilar.length === 0 ? (
+        <div className="overflow-x-auto w-full pb-2">
+          <table className="w-full text-sm text-left">
+            <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
-                  Henüz hiç kullanıcı eklenmemiş.
-                </td>
+                <th className="px-4 py-3 font-semibold">İsim Soyisim</th>
+                <th className="px-4 py-3 font-semibold">Rol</th>
+                <th className="px-4 py-3 font-semibold">Şirket Yönetimi</th>
+                <th className="px-4 py-3 font-semibold">Değerlendirme Yönetimi</th>
+                <th className="px-4 py-3 font-semibold">Soru Yönetimi</th>
+                <th className="px-4 py-3 font-semibold">Yorum Yönetimi</th>
+                <th className="px-4 py-3 font-semibold text-right">İşlemler</th>
               </tr>
-            ) : (
-              kullanicilar.map((k) => (
-                <tr key={k.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-4 py-3 font-medium text-slate-800">{k.tam_ad}</td>
-                  <td className="px-4 py-3 text-slate-600">
-                    <span className={`px-2 py-1 rounded-md text-xs font-semibold ${k.rol === 'superadmin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'}`}>
-                      {k.rol === 'superadmin' ? 'Süper Admin' : 'Kullanıcı'}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-center align-middle">
-                    {(k.rol === 'superadmin' || k.yetkiler?.sirket_yonetimi) ? <CheckIcon /> : <CrossIcon />}
-                  </td>
-                  <td className="px-4 py-3 text-center align-middle">
-                    {(k.rol === 'superadmin' || k.yetkiler?.degerlendirme_yonetimi) ? <CheckIcon /> : <CrossIcon />}
-                  </td>
-                  <td className="px-4 py-3 text-center align-middle">
-                    {(k.rol === 'superadmin' || k.yetkiler?.soru_yonetimi) ? <CheckIcon /> : <CrossIcon />}
-                  </td>
-                  <td className="px-4 py-3 text-center align-middle">
-                    {(k.rol === 'superadmin' || k.yetkiler?.yorum_yonetimi) ? <CheckIcon /> : <CrossIcon />}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="flex justify-end gap-2">
-                      <Buton varyant="outline" boyut="sm" onClick={() => modalAc('duzenle', k)}>Düzenle</Buton>
-                      <Buton varyant="secondary" boyut="sm" onClick={() => modalAc('sil', k)} disabled={k.rol === 'superadmin'} className="text-red-600 hover:text-red-700 hover:bg-red-50 disabled:opacity-50">Sil</Buton>
-                    </div>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {kullanicilar.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                    Henüz hiç kullanıcı eklenmemiş.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                kullanicilar.map((k) => (
+                  <tr key={k.id} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="px-4 py-3 font-medium text-slate-800">{k.tam_ad}</td>
+                    <td className="px-4 py-3 text-slate-600">
+                      <span className={`px-2 py-1 rounded-md text-xs font-semibold ${k.rol === 'superadmin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'}`}>
+                        {k.rol === 'superadmin' ? 'Süper Admin' : 'Kullanıcı'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-center align-middle">
+                      {(k.rol === 'superadmin' || k.yetkiler?.sirket_yonetimi) ? <CheckIcon /> : <CrossIcon />}
+                    </td>
+                    <td className="px-4 py-3 text-center align-middle">
+                      {(k.rol === 'superadmin' || k.yetkiler?.degerlendirme_yonetimi) ? <CheckIcon /> : <CrossIcon />}
+                    </td>
+                    <td className="px-4 py-3 text-center align-middle">
+                      {(k.rol === 'superadmin' || k.yetkiler?.soru_yonetimi) ? <CheckIcon /> : <CrossIcon />}
+                    </td>
+                    <td className="px-4 py-3 text-center align-middle">
+                      {(k.rol === 'superadmin' || k.yetkiler?.yorum_yonetimi) ? <CheckIcon /> : <CrossIcon />}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex justify-end gap-2">
+                        <Buton varyant="outline" boyut="sm" onClick={() => modalAc('duzenle', k)}>Düzenle</Buton>
+                        <Buton varyant="secondary" boyut="sm" onClick={() => modalAc('sil', k)} disabled={k.rol === 'superadmin'} className="text-red-600 hover:text-red-700 hover:bg-red-50 disabled:opacity-50">Sil</Buton>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Kullanıcı Ekle Modal */}

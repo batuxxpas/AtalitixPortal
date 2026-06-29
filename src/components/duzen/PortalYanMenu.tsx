@@ -22,7 +22,7 @@ interface SidebarProps {
 
 // ─── Navigasyon Öğeleri ───────────────────────────────────────────────────────
 
-const navOgeleri = [
+export const navOgeleri = [
   {
     etiket: 'Ana Ekran',
     href: '/dashboard',
@@ -52,7 +52,7 @@ const navOgeleri = [
   },
 ]
 
-const soruYonetimiOgesi = {
+export const soruYonetimiOgesi = {
   etiket: 'Soru Paneli',
   href: '/sorular',
   ikon: (
@@ -62,7 +62,7 @@ const soruYonetimiOgesi = {
   ),
 }
 
-const yoneticiOgeleri = [
+export const yoneticiOgeleri = [
   {
     etiket: 'Kullanıcılar',
     href: '/kullanicilar',

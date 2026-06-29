@@ -169,7 +169,7 @@ export default async function ResultsPage({ params }: Props) {
             <KartIcerigi>
               <KategoriCubukGrafigi data={categoryScores} className="mb-6" />
               
-              <div className="overflow-x-auto rounded-xl border border-slate-200">
+              <div className="overflow-x-auto w-full pb-2">
                 <table className="w-full text-sm text-left">
                   <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
                     <tr>

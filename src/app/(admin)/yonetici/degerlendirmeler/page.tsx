@@ -56,7 +56,7 @@ export default async function AdminAssessmentsPage() {
           />
         ) : (
           <KartIcerigi className="p-0">
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full pb-2">
               <table className="portal-table">
                 <thead>
                   <tr>

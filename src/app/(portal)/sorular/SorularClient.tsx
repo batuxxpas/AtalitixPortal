@@ -340,6 +340,7 @@ export function SorularClient({
           
           {/* SORULAR TABI */}
           {aktifTab === 'sorular' && (
+            <div className="overflow-x-auto w-full pb-2">
             <table className="portal-table w-full text-sm text-left">
               <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
                 <tr>
@@ -381,10 +382,12 @@ export function SorularClient({
                 ))}
               </tbody>
             </table>
+            </div>
           )}
 
           {/* SEÇENEKLER TABI */}
           {aktifTab === 'secenekler' && (
+            <div className="overflow-x-auto w-full pb-2">
             <table className="portal-table w-full text-sm text-left">
               <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
                 <tr>
@@ -423,10 +426,12 @@ export function SorularClient({
                 ))}
               </tbody>
             </table>
+            </div>
           )}
 
           {/* KURALLAR TABI */}
           {aktifTab === 'kurallar' && (
+            <div className="overflow-x-auto w-full pb-2">
             <table className="portal-table w-full text-sm text-left">
               <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b border-slate-200">
                 <tr>
@@ -482,6 +487,7 @@ export function SorularClient({
                 ))}
               </tbody>
             </table>
+            </div>
           )}
 
         </KartIcerigi>
