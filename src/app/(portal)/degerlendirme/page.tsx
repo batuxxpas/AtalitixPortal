@@ -154,15 +154,15 @@ export default async function DegerlendirmeListeSayfasi(props: { searchParams: P
                       <td className="text-slate-500">
                         {assessment.tamamlanma_tarihi ? formatDate(assessment.tamamlanma_tarihi) : '—'}
                       </td>
-                      <td>
-                        <div className="flex items-center gap-2">
+                      <td className="text-right">
+                        <div className="flex items-center gap-1.5 justify-end">
                           {assessment.durum === 'completed' ? (
                             <Link href={`/sonuclar/${assessment.id}`}>
-                              <Buton varyant="outline" boyut="xs">Sonuçları Gör</Buton>
+                              <Buton varyant="outline" boyut="xs" className="whitespace-nowrap">Sonuçları Gör</Buton>
                             </Link>
                           ) : (
                             <Link href={`/degerlendirme/${assessment.id}`}>
-                              <Buton varyant="primary" boyut="xs">Devam Et</Buton>
+                              <Buton varyant="primary" boyut="xs" className="whitespace-nowrap">Devam Et</Buton>
                             </Link>
                           )}
                           <DegerlendirmeSilButonu id={assessment.id} />
