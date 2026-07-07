@@ -1,13 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { Buton } from '@/components/arayuz'
 
 export function DegerlendirmeSilButonu({ id }: { id: string }) {
   const [siliniyor, setSiliniyor] = useState(false)
   const [modalAcik, setModalAcik] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleSil = async () => {
     setSiliniyor(true)
@@ -41,8 +47,8 @@ export function DegerlendirmeSilButonu({ id }: { id: string }) {
         </svg>
       </Buton>
 
-      {modalAcik && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+      {mounted && modalAcik && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-fade-up">
             <div className="p-6 text-center">
               <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
@@ -69,7 +75,8 @@ export function DegerlendirmeSilButonu({ id }: { id: string }) {
               </Buton>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )
