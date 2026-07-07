@@ -85,6 +85,7 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
   })
   const [isSaving, setIsSaving] = useState(false)
   const [raporOlusturuluyor, setRaporOlusturuluyor] = useState(false)
+  const [highlightedQuestionId, setHighlightedQuestionId] = useState<string | null>(null)
 
   // -- DİNAMİK AKIŞ MOTORU BAĞLANTISI --
   const hiddenQuestionIds = getHiddenQuestionIds(answers, kategoriler, kurallar)
@@ -120,6 +121,9 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
   const canProceed = answeredRequiredInCategory === requiredInCategory
 
   function handleOptionSelect(questionId: string, optionId: string, tip: string) {
+    if (highlightedQuestionId === questionId) {
+      setHighlightedQuestionId(null)
+    }
     setAnswers((prev) => {
       if (tip === 'single_choice') {
         return { ...prev, [questionId]: [optionId] }
@@ -151,6 +155,18 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
   }
 
   async function handleNext() {
+    if (!canProceed) {
+      const unansweredRequired = allQuestionsInCategory.find(q => q.zorunlu_mu && (!answers[q.id] || answers[q.id].length === 0))
+      if (unansweredRequired) {
+        setHighlightedQuestionId(unansweredRequired.id)
+        const el = document.getElementById(`question-${unansweredRequired.id}`)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }
+      return
+    }
+
     setIsSaving(true)
     await saveAnswers()
     setIsSaving(false)
@@ -171,6 +187,18 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
   }
 
   async function handleSubmit() {
+    if (!canProceed) {
+      const unansweredRequired = allQuestionsInCategory.find(q => q.zorunlu_mu && (!answers[q.id] || answers[q.id].length === 0))
+      if (unansweredRequired) {
+        setHighlightedQuestionId(unansweredRequired.id)
+        const el = document.getElementById(`question-${unansweredRequired.id}`)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }
+      return
+    }
+
     setRaporOlusturuluyor(true)
     setIsSaving(true)
     await saveAnswers()
@@ -297,7 +325,16 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
       {/* Questions */}
       <div className="space-y-4">
         {allQuestionsInCategory.map((question, qIdx) => (
-          <Kart key={question.id} className="p-5">
+          <Kart 
+            key={question.id} 
+            id={`question-${question.id}`}
+            className={cn(
+              "p-5 transition-all duration-500",
+              highlightedQuestionId === question.id 
+                ? "border-red-400 shadow-[0_0_15px_rgba(248,113,113,0.3)] bg-red-50/30 transform scale-[1.01]" 
+                : ""
+            )}
+          >
             <div className="mb-4">
               <div className="flex items-start justify-between gap-2">
                 <p className="font-medium text-slate-800">
@@ -310,7 +347,15 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
                 </Rozet>
               </div>
               {question.aciklama && (
-                <p className="text-sm text-slate-500 mt-1 ml-5">{question.aciklama}</p>
+                <p className={cn(
+                  "text-sm mt-1 ml-5",
+                  highlightedQuestionId === question.id ? "text-red-600/80 font-medium" : "text-slate-500"
+                )}>
+                  {highlightedQuestionId === question.id ? "Lütfen bu soruyu cevaplayınız. " : ""}{question.aciklama}
+                </p>
+              )}
+              {!question.aciklama && highlightedQuestionId === question.id && (
+                <p className="text-sm mt-1 ml-5 text-red-600/80 font-medium">Lütfen bu soruyu cevaplayınız.</p>
               )}
             </div>
 
@@ -368,8 +413,8 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
           <Buton
             onClick={handleSubmit}
             yukleniyorMu={isSaving || isPending}
-            disabled={!canProceed}
             boyut="lg"
+            className={!canProceed ? "bg-slate-800 hover:bg-slate-700" : "bg-blue-600 hover:bg-blue-700"}
           >
             Değerlendirmeyi Tamamla ✓
           </Buton>
@@ -377,8 +422,8 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
           <Buton
             onClick={handleNext}
             yukleniyorMu={isSaving}
-            disabled={!canProceed}
             varyant="primary"
+            className={!canProceed ? "bg-slate-800 hover:bg-slate-700" : ""}
           >
             Sonraki →
           </Buton>

@@ -6,11 +6,13 @@ interface KartProps {
   className?: string
   parlama?: boolean
   as?: ElementType
+  id?: string
 }
 
-export function Kart({ children, className, parlama = false, as: Tag = 'div' }: KartProps) {
+export function Kart({ children, className, parlama = false, as: Tag = 'div', id }: KartProps) {
   return (
     <Tag
+      id={id}
       className={cn(
         'bg-white border border-slate-100 shadow-sm rounded-2xl',
         parlama && 'card-glow',
