@@ -8,6 +8,7 @@ import { DEGERLENDIRME_DURUM_ETIKETLERI, DEGERLENDIRME_DURUM_RENKLERI, DEGERLEND
 import { formatDate } from '@/lib/utils'
 import { DegerlendirmeBaslatClient } from './DegerlendirmeBaslatClient'
 import { SirketFiltresi } from './SirketFiltresi'
+import { DegerlendirmeSilButonu } from '@/components/degerlendirme/DegerlendirmeSilButonu'
 
 export const metadata: Metadata = { title: 'Değerlendirmeler' }
 
@@ -164,6 +165,7 @@ export default async function DegerlendirmeListeSayfasi(props: { searchParams: P
                               <Buton varyant="primary" boyut="xs">Devam Et</Buton>
                             </Link>
                           )}
+                          <DegerlendirmeSilButonu id={assessment.id} />
                         </div>
                       </td>
                     </tr>

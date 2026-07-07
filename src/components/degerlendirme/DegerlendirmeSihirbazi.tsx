@@ -53,6 +53,7 @@ interface Question {
   tip: string
   agirlik: number
   zorunlu_mu: boolean
+  sira: number
   secenekler: Option[]
 }
 
@@ -117,7 +118,9 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
   const currentCategory = activeCategories[activeIndex]
   const progress = totalCategories > 0 ? Math.round(((activeIndex + 1) / totalCategories) * 100) : 0
 
-  const allQuestionsInCategory = currentCategory?.sorular.filter(q => !hiddenQuestionIds.has(q.id)) ?? []
+  const allQuestionsInCategory = (currentCategory?.sorular || [])
+    .filter(q => !hiddenQuestionIds.has(q.id))
+    .sort((a, b) => a.sira - b.sira)
   const answeredInCategory = allQuestionsInCategory.filter(
     (q) => answers[q.id] && answers[q.id].length > 0
   ).length
