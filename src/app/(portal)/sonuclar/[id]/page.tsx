@@ -105,7 +105,13 @@ export default async function ResultsPage({ params }: Props) {
             Tamamlanma: {assessment.tamamlanma_tarihi ? formatDate(assessment.tamamlanma_tarihi) : '—'}
           </p>
         </div>
-        <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
+        <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0 flex-wrap">
+          <Link href={`/sonuclar/${id}/detaylar`}>
+            <Buton varyant="secondary" className="bg-white">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+              Soru-Cevap Dökümü
+            </Buton>
+          </Link>
           <YazdirButonu />
           <MailGonderButonu 
             hedefMail={assessment.company?.yetkili_email || user.email || ''} 

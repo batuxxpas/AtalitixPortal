@@ -83,9 +83,17 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
     })
     return map
   })
+  const [notes, setNotes] = useState<Record<string, string>>(() => {
+    const map: Record<string, string> = {}
+    onaylanmisCevaplar.forEach((a: any) => {
+      if (a.metin_degeri) map[a.soru_id] = a.metin_degeri
+    })
+    return map
+  })
   const [isSaving, setIsSaving] = useState(false)
   const [raporOlusturuluyor, setRaporOlusturuluyor] = useState(false)
   const [highlightedQuestionId, setHighlightedQuestionId] = useState<string | null>(null)
+  const [noteOpenState, setNoteOpenState] = useState<Record<string, boolean>>({})
 
   // -- DİNAMİK AKIŞ MOTORU BAĞLANTISI --
   const hiddenQuestionIds = getHiddenQuestionIds(answers, kategoriler, kurallar)
@@ -144,6 +152,7 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
         degerlendirme_id: degerlendirme.id,
         soru_id,
         secenek_idleri,
+        metin_degeri: notes[soru_id] || null
       }))
 
     if (upserts.length === 0) return
@@ -394,6 +403,42 @@ export function DegerlendirmeSihirbazi({ degerlendirme, kategoriler, onaylanmisC
                     </button>
                   )
                 })}
+            </div>
+
+            {/* Note Section */}
+            <div className="mt-4 ml-5">
+              {!noteOpenState[question.id] && !notes[question.id] ? (
+                <button 
+                  onClick={() => setNoteOpenState(prev => ({ ...prev, [question.id]: true }))}
+                  className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                  Bu soruya not veya açıklama ekle
+                </button>
+              ) : (
+                <div className="animate-fade-in space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-semibold text-slate-600">Soru Notu (Opsiyonel)</label>
+                    <button 
+                      onClick={() => {
+                        setNoteOpenState(prev => ({ ...prev, [question.id]: false }))
+                        if (!notes[question.id]) {
+                          setNotes(prev => { const n = {...prev}; delete n[question.id]; return n; })
+                        }
+                      }}
+                      className="text-xs text-slate-400 hover:text-slate-600"
+                    >
+                      Kapat
+                    </button>
+                  </div>
+                  <textarea
+                    value={notes[question.id] || ''}
+                    onChange={(e) => setNotes(prev => ({ ...prev, [question.id]: e.target.value }))}
+                    placeholder="Bu soru için eklemek istediğiniz bağlam, detay veya durumu buraya yazabilirsiniz..."
+                    className="w-full h-20 p-3 text-sm rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-all text-slate-700"
+                  />
+                </div>
+              )}
             </div>
           </Kart>
         ))}
